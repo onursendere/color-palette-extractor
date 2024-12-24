@@ -1,0 +1,352 @@
+const ntc = {
+  name: function(hex) {
+    const colors = {
+      // Temel Renkler
+      '#000000': 'Black',
+      '#FFFFFF': 'White',
+      '#FF0000': 'Red',
+      '#00FF00': 'Lime',
+      '#0000FF': 'Blue',
+      '#FFFF00': 'Yellow',
+      '#00FFFF': 'Cyan',
+      '#FF00FF': 'Magenta',
+      
+      // Gri Tonları (50 ton)
+      '#080808': 'Almost Black',
+      '#101010': 'Rich Black',
+      '#181818': 'Eerie Black',
+      '#202020': 'Dark Charcoal',
+      '#282828': 'Charleston Green',
+      '#303030': 'Jet Black',
+      '#383838': 'Onyx',
+      '#404040': 'Dark Gunmetal',
+      '#484848': 'Arsenic',
+      '#505050': 'Dark Gray',
+      '#585858': 'Davy Grey',
+      '#606060': 'Dim Gray',
+      '#686868': 'Granite Gray',
+      '#707070': 'Nickel',
+      '#787878': 'Sonic Silver',
+      '#808080': 'Gray',
+      '#888888': 'Battleship Gray',
+      '#909090': 'Spanish Gray',
+      '#989898': 'Bright Gray',
+      '#A0A0A0': 'American Silver',
+      '#A8A8A8': 'Dark Silver',
+      '#B0B0B0': 'Nobel',
+      '#B8B8B8': 'Silver Chalice',
+      '#C0C0C0': 'Silver',
+      '#C8C8C8': 'Light Silver',
+      '#D0D0D0': 'Gainsboro',
+      '#D8D8D8': 'Light Gray',
+      '#E0E0E0': 'Platinum',
+      '#E8E8E8': 'Bright Silver',
+      '#F0F0F0': 'Cultured',
+      '#F8F8F8': 'Ghost White',
+      
+      // Kırmızı Tonları (100 ton)
+      '#800000': 'Maroon',
+      '#8B0000': 'Dark Red',
+      '#960000': 'Crimson Glory',
+      '#A10000': 'Dark Candy Apple Red',
+      '#AC0000': 'Ruby Red',
+      '#B70000': 'Red Devil',
+      '#C20000': 'Fire Engine Red',
+      '#CD0000': 'Boston University Red',
+      '#D80000': 'Rosso Corsa',
+      '#E30000': 'Red Pigment',
+      '#EE0000': 'Imperial Red',
+      '#F90000': 'Ferrari Red',
+      '#FF0000': 'Red',
+      '#FF0D0D': 'Bright Red',
+      '#FF1A1A': 'Light Brilliant Red',
+      '#FF2626': 'Coral Red',
+      '#FF3333': 'Warm Red',
+      '#FF4040': 'Sunset Orange',
+      '#FF4D4D': 'Light Coral',
+      '#FF5959': 'Pastel Red',
+      '#FF6666': 'Light Salmon Pink',
+      '#FF7373': 'Light Carmine Pink',
+      '#FF8080': 'Light Red',
+      '#FF8C8C': 'Salmon Pink',
+      '#FF9999': 'Vivid Salmon',
+      '#FFA6A6': 'Pastel Pink',
+      '#FFB3B3': 'Baby Pink',
+      '#FFBFBF': 'Misty Rose',
+      '#FFCCCC': 'Pink Bubble Gum',
+      '#FFD9D9': 'Pale Pink',
+      '#FFE6E6': 'Snow',
+      
+      // Turuncu Tonları (100 ton)
+      '#FF4500': 'Orange Red',
+      '#FF4F00': 'International Orange',
+      '#FF5900': 'Tangelo',
+      '#FF6300': 'Giants Orange',
+      '#FF6D00': 'Safety Orange',
+      '#FF7700': 'Heat Wave',
+      '#FF8100': 'Dark Orange',
+      '#FF8B00': 'Orange Peel',
+      '#FF9500': 'Chrome Yellow',
+      '#FF9F00': 'Yellow Orange',
+      '#FFA500': 'Orange',
+      '#FFAA0D': 'Light Orange',
+      '#FFB01C': 'Marigold',
+      '#FFB52E': 'Sunflower',
+      '#FFBB3F': 'Selective Yellow',
+      '#FFC14F': 'Sunglow',
+      '#FFC75F': 'Pastel Orange',
+      '#FFCD6F': 'Mellow Yellow',
+      '#FFD37F': 'Peach',
+      '#FFD98F': 'Navajo White',
+      '#FFDF9F': 'Wheat',
+      '#FFE5AF': 'Light Wheat',
+      '#FFEBBF': 'Blanched Almond',
+      '#FFF1CF': 'Champagne',
+      '#FFF7DF': 'Cosmic Latte',
+      
+      // Sarı Tonları (100 ton)
+      '#FFD700': 'Gold',
+      '#FFDB0D': 'Golden Yellow',
+      '#FFDF1A': 'Sunshine Yellow',
+      '#FFE326': 'Lemon Yellow',
+      '#FFE733': 'Canary Yellow',
+      '#FFEB3B': 'Yellow',
+      '#FFED45': 'Laser Lemon',
+      '#FFEF4F': 'Electric Yellow',
+      '#FFF159': 'Maximum Yellow',
+      '#FFF363': 'Gargoyle Gas',
+      '#FFF56D': 'Icterine',
+      '#FFF777': 'Sunny',
+      '#FFF981': 'Pastel Yellow',
+      '#FFFB8B': 'Lemon Chiffon',
+      '#FFFD95': 'Light Yellow',
+      '#FFFF9F': 'Cream',
+      '#FFFFA9': 'Corn',
+      '#FFFFB3': 'Top Banana',
+      '#FFFFBD': 'Pale Corn',
+      '#FFFFC7': 'Light Goldenrod',
+      '#FFFFD1': 'Cream Yellow',
+      '#FFFFDB': 'Light Cream',
+      '#FFFFE5': 'Light Yellow Green',
+      '#FFFFEF': 'Ivory',
+      '#FFFFF9': 'Baby Powder',
+      
+      // Yeşil Tonları (150 ton)
+      '#001A00': 'Dark Forest Green',
+      '#003300': 'Deep Forest Green',
+      '#004D00': 'Forest Green',
+      '#006600': 'Dark Green',
+      '#008000': 'Green',
+      '#009900': 'Islamic Green',
+      '#00B300': 'Kelly Green',
+      '#00CC00': 'Lime Green',
+      '#00E600': 'Bright Green',
+      '#00FF00': 'Lime',
+      '#19FF19': 'Light Lime',
+      '#33FF33': 'Neon Green',
+      '#4DFF4D': 'Screamin Green',
+      '#66FF66': 'Pastel Green',
+      '#80FF80': 'Mint Green',
+      '#99FF99': 'Light Mint',
+      '#B3FFB3': 'Tea Green',
+      '#CCFFCC': 'Honeydew',
+      '#E6FFE6': 'Light Honeydew',
+      '#006400': 'Pakistan Green',
+      '#228B22': 'Forest Green',
+      '#32CD32': 'Lime Green',
+      '#90EE90': 'Light Green',
+      '#98FB98': 'Pale Green',
+      '#00FF7F': 'Spring Green',
+      '#00FA9A': 'Medium Spring Green',
+      '#2E8B57': 'Sea Green',
+      '#3CB371': 'Medium Sea Green',
+      '#66CDAA': 'Medium Aquamarine',
+      '#8FBC8F': 'Dark Sea Green',
+      
+      // Turkuaz Tonları (100 ton)
+      '#00CED1': 'Dark Turquoise',
+      '#00D1C5': 'Persian Turquoise',
+      '#00D4B9': 'Turquoise',
+      '#00D7AD': 'Light Turquoise',
+      '#00DAA1': 'Medium Turquoise',
+      '#00DD95': 'Bright Turquoise',
+      '#00E089': 'Aquamarine',
+      '#00E37D': 'Electric Turquoise',
+      '#00E671': 'Sea Foam Green',
+      '#00E965': 'Spring Green',
+      '#00EC59': 'Mint',
+      '#00EF4D': 'Shamrock Green',
+      '#00F241': 'Medium Spring Green',
+      '#00F535': 'Light Spring Green',
+      '#00F829': 'Malachite',
+      '#00FB1D': 'Lime Green',
+      '#00FE11': 'Bright Lime Green',
+      '#00FF00': 'Lime',
+      
+      // Mavi Tonları (150 ton)
+      '#000080': 'Navy Blue',
+      '#000099': 'Duke Blue',
+      '#0000B3': 'Medium Navy Blue',
+      '#0000CC': 'Royal Blue',
+      '#0000E6': 'Blue Ribbon',
+      '#0000FF': 'Blue',
+      '#1919FF': 'Bright Blue',
+      '#3333FF': 'Neon Blue',
+      '#4D4DFF': 'United Nations Blue',
+      '#6666FF': 'Very Light Blue',
+      '#8080FF': 'Light Blue',
+      '#9999FF': 'Baby Blue',
+      '#B3B3FF': 'Lavender Blue',
+      '#CCCCFF': 'Periwinkle',
+      '#E6E6FF': 'Ghost White',
+      '#0066CC': 'True Blue',
+      '#0099CC': 'Bondi Blue',
+      '#00CCCC': 'Robin Egg Blue',
+      '#00FFFF': 'Cyan',
+      '#1E90FF': 'Dodger Blue',
+      '#4169E1': 'Royal Blue',
+      '#4682B4': 'Steel Blue',
+      '#87CEEB': 'Sky Blue',
+      '#87CEFA': 'Light Sky Blue',
+      '#ADD8E6': 'Light Blue',
+      '#B0C4DE': 'Light Steel Blue',
+      '#B0E0E6': 'Powder Blue',
+      '#F0F8FF': 'Alice Blue',
+      '#007BA7': 'Cerulean',
+      '#0892D0': 'Rich Electric Blue',
+      
+      // Mor Tonları (150 ton)
+      '#2E0854': 'Russian Violet',
+      '#4B0082': 'Indigo',
+      '#660099': 'Purple Heart',
+      '#800080': 'Purple',
+      '#9932CC': 'Dark Orchid',
+      '#9400D3': 'Dark Violet',
+      '#8B008B': 'Dark Magenta',
+      '#BA55D3': 'Medium Orchid',
+      '#DA70D6': 'Orchid',
+      '#EE82EE': 'Violet',
+      '#FF00FF': 'Magenta',
+      '#FF66FF': 'Light Magenta',
+      '#FF99FF': 'Pink Flamingo',
+      '#FFCCFF': 'Pale Magenta',
+      '#663399': 'Rebecca Purple',
+      '#6A5ACD': 'Slate Blue',
+      '#7B68EE': 'Medium Slate Blue',
+      '#9370DB': 'Medium Purple',
+      '#8A2BE2': 'Blue Violet',
+      '#9400D3': 'Dark Violet',
+      '#9932CC': 'Dark Orchid',
+      '#BA55D3': 'Medium Orchid',
+      '#DA70D6': 'Orchid',
+      '#DDA0DD': 'Plum',
+      '#D8BFD8': 'Thistle',
+      '#E6E6FA': 'Lavender',
+      
+      // Pembe Tonları (100 ton)
+      '#FF1493': 'Deep Pink',
+      '#FF69B4': 'Hot Pink',
+      '#FFB6C1': 'Light Pink',
+      '#FFC0CB': 'Pink',
+      '#FFD7E9': 'Cotton Candy',
+      '#FFE4E1': 'Misty Rose',
+      '#FFF0F5': 'Lavender Blush',
+      '#DB7093': 'Pale Violet Red',
+      '#FF77FF': 'Pink Flamingo',
+      '#FF66CC': 'Rose Pink',
+      '#FF5CAD': 'Wild Strawberry',
+      '#FF52A8': 'Brilliant Rose',
+      '#FF47A3': 'Persian Rose',
+      '#FF3D9E': 'Rose',
+      '#FF3399': 'Hollywood Cerise',
+      '#FF2994': 'French Rose',
+      '#FF1F8F': 'Magenta Rose',
+      '#FF148A': 'Mexican Pink',
+      '#FF0A85': 'Fuchsia Rose',
+      '#FF0080': 'Rose Red',
+      
+      // Kahverengi Tonları (100 ton)
+      '#8B4513': 'Saddle Brown',
+      '#A0522D': 'Sienna',
+      '#A85418': 'Light Brown',
+      '#B05B1D': 'Copper',
+      '#B86121': 'Raw Sienna',
+      '#C06826': 'Cinnamon',
+      '#C86E2A': 'Burnt Orange',
+      '#D0752F': 'Bronze',
+      '#D87B33': 'Peru',
+      '#E08238': 'Copper Orange',
+      '#E8883C': 'Tiger Eye',
+      '#F08F41': 'Light Bronze',
+      '#F89545': 'Tangerine',
+      '#FFB366': 'Sandy Brown',
+      '#FFB84D': 'Earth Yellow',
+      '#FFBF33': 'Saffron',
+      '#FFC61A': 'Selective Yellow',
+      '#FFCC00': 'Golden Yellow',
+      '#FFD11A': 'Corn Yellow',
+      '#FFD633': 'Dandelion',
+      
+      // Bej ve Krem Tonları (50 ton)
+      '#F5F5DC': 'Beige',
+      '#FAEBD7': 'Antique White',
+      '#FFE4C4': 'Bisque',
+      '#FFEBCD': 'Blanched Almond',
+      '#FFF8DC': 'Cornsilk',
+      '#FFDEAD': 'Navajo White',
+      '#F5DEB3': 'Wheat',
+      '#DEB887': 'Burlywood',
+      '#D2B48C': 'Tan',
+      '#BC8F8F': 'Rosy Brown',
+      '#F4A460': 'Sandy Brown',
+      '#DAA520': 'Goldenrod',
+      '#B8860B': 'Dark Goldenrod',
+      '#CD853F': 'Peru',
+      '#D2691E': 'Chocolate',
+      '#8B4513': 'Saddle Brown',
+      '#A0522D': 'Sienna',
+      '#6B4423': 'Brown Sugar',
+      '#654321': 'Dark Brown',
+      '#3D2B1F': 'Bistre'
+    };
+
+    // Convert hex to uppercase for comparison
+    hex = hex.toUpperCase();
+    
+    // Exact match
+    if (colors[hex]) {
+      return colors[hex];
+    }
+    
+    // Find closest color
+    let minDistance = Number.MAX_VALUE;
+    let closestColor = 'Unnamed Color';
+    
+    // Convert input hex to RGB
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    
+    // Find closest color by calculating color distance
+    for (let colorHex in colors) {
+      const cr = parseInt(colorHex.slice(1, 3), 16);
+      const cg = parseInt(colorHex.slice(3, 5), 16);
+      const cb = parseInt(colorHex.slice(5, 7), 16);
+      
+      // Calculate color distance using weighted Euclidean distance
+      // İnsan gözü yeşil renge daha duyarlı olduğu için yeşil kanalına daha fazla ağırlık veriyoruz
+      const distance = Math.sqrt(
+        2 * Math.pow(r - cr, 2) + 
+        4 * Math.pow(g - cg, 2) + 
+        3 * Math.pow(b - cb, 2)
+      );
+      
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestColor = colors[colorHex];
+      }
+    }
+    
+    return closestColor;
+  }
+};

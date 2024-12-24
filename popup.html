@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Color Palette Extractor</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 320px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
+    }
+    
+    .container {
+      padding: 16px;
+    }
+    
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .color-box {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 8px;
+      border-radius: 8px;
+      background: #fafafa;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .color-box:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .color-preview {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      margin-right: 12px;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .color-info {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .color-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1a1a1a;
+    }
+    
+    .hex-code {
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 12px;
+      color: #666;
+      letter-spacing: 0.5px;
+    }
+    
+    .usage-count {
+      font-size: 11px;
+      color: #888;
+    }
+    
+    .copy-button {
+      padding: 6px 12px;
+      background: #007aff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      opacity: 0;
+    }
+    
+    .color-box:hover .copy-button {
+      opacity: 1;
+    }
+    
+    .copy-button:hover {
+      background: #0066d6;
+    }
+    
+    #no-colors {
+      text-align: center;
+      padding: 32px 16px;
+      color: #666;
+      font-size: 14px;
+      background: #fafafa;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      padding: 12px 16px;
+      background: #fafafa;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .footer a {
+      color: #007aff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .footer a:hover {
+      color: #0066d6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Color Palette</h2>
+    <div id="colors-container"></div>
+    <div id="no-colors" style="display: none;">
+      No colors found on this page
+    </div>
+  </div>
+  <div class="footer">
+    Created by Onur Şendere
+  </div>
+  <script src="colorNames.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

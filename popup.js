@@ -1,51 +1,66 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Query the active tab
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    // Send message to content script
-    chrome.tabs.sendMessage(tabs[0].id, {action: 'getColors'}, function(colors) {
-      const container = document.getElementById('colors-container');
-      const noColors = document.getElementById('no-colors');
-      
-      if (colors && colors.length > 0) {
-        noColors.style.display = 'none';
-        container.innerHTML = '';
+document.addEventListener('DOMContentLoaded', async () => {
+    const container = document.getElementById('color-container');
+    container.innerHTML = '<div class="loading">Creating color palette with love...</div>';
+    
+    try {
+        // Get the current active tab
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         
-        // Only show top 10 colors
-        colors.slice(0, 10).forEach((color, index) => {
-          const colorName = ntc.name(color.hex);
-          const colorBox = document.createElement('div');
-          colorBox.className = 'color-box';
-          
-          colorBox.innerHTML = `
-            <div class="color-preview" style="background-color: ${color.hex}"></div>
-            <div class="color-info">
-              <div class="color-name">${colorName}</div>
-              <div class="hex-code">${color.hex.toUpperCase()}</div>
-              <div class="usage-count">Used ${color.count} times</div>
-            </div>
-            <button class="copy-button" data-color="${color.hex}">Copy</button>
-          `;
-          
-          container.appendChild(colorBox);
+        // Execute the color extraction code
+        const result = await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ['content.js']
         });
         
-        // Add click handlers for copy buttons
-        document.querySelectorAll('.copy-button').forEach(button => {
-          button.addEventListener('click', function() {
-            const color = this.getAttribute('data-color');
-            navigator.clipboard.writeText(color).then(() => {
-              const originalText = this.textContent;
-              this.textContent = 'Copied!';
-              setTimeout(() => {
-                this.textContent = originalText;
-              }, 1000);
+        // Get the results from the injected script
+        const colors = await result[0].result;
+        
+        // Display the colors
+        container.innerHTML = ''; // Clear loading message
+        
+        if (!colors || colors.length === 0) {
+            container.innerHTML = '<div class="error">Bu sayfada renk bulunamadı.</div>';
+            return;
+        }
+        
+        colors.forEach(color => {
+            const colorBox = document.createElement('div');
+            colorBox.className = 'color-box';
+            
+            const colorSquare = document.createElement('div');
+            colorSquare.className = 'color-square';
+            colorSquare.style.backgroundColor = color.hex;
+            
+            const colorInfo = document.createElement('div');
+            colorInfo.className = 'color-info';
+            colorInfo.innerHTML = `
+                <div class="color-name">${color.name}</div>
+                <div class="color-hex">${color.hex}</div>
+                <div class="color-percentage">${color.percentage}%</div>
+            `;
+            
+            colorBox.appendChild(colorSquare);
+            colorBox.appendChild(colorInfo);
+            container.appendChild(colorBox);
+            
+            // Add click to copy functionality
+            colorBox.addEventListener('click', () => {
+                navigator.clipboard.writeText(color.hex);
+                
+                // Show feedback
+                const feedback = document.createElement('div');
+                feedback.className = 'copy-feedback';
+                feedback.textContent = 'Copied!';
+                colorBox.appendChild(feedback);
+                
+                // Remove feedback after animation
+                setTimeout(() => {
+                    feedback.remove();
+                }, 1000);
             });
-          });
         });
-      } else {
-        container.innerHTML = '';
-        noColors.style.display = 'block';
-      }
-    });
-  });
+    } catch (error) {
+        console.error('Error:', error);
+        container.innerHTML = '<div class="error">Renk paleti oluşturulamadı. Lütfen tekrar deneyin.</div>';
+    }
 });
